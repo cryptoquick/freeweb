@@ -1,0 +1,36 @@
+{
+  "name": "arcjetx",
+  "version": "1.0.0",
+  "description": "extension for chrome-compatible browsers for accessing sites using the arcjet:// protocol",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --config webpack/webpack.dev.js --watch",
+    "build": "webpack --config webpack/webpack.prod.js"
+  },
+  "author": "",
+  "license": "UNLICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arcjet/arcjetx.git"
+  },
+  "dependencies": {
+    "@types/react": "^16.7.8",
+    "@types/react-dom": "^16.0.11",
+    "@types/styled-components": "^4.1.2",
+    "js-sha3": "^0.8.0",
+    "peerjs": "^0.3.18",
+    "react": "16.7.0-alpha.2",
+    "react-dom": "^16.6.3",
+    "sphincs": "^2.2.3",
+    "styled-components": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/chrome": "~0.0.72",
+    "ts-loader": "~5.3.1",
+    "typescript": "~3.1.6",
+    "webpack": "~4.26.1",
+    "webpack-cli": "~3.1.0",
+    "webpack-merge": "~4.1.4"
+  },
+  "private": true
+}
