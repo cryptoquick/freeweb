@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "arcjetx",
-  "description": "extension for chrome-compatible browsers for accessing sites using the arcjet:// protocol",
+  "description": "extension for chrome-compatible browsers for accessing sites using the .arcjet tld and the arcjet network",
   "version": "1.0",
 
   "options_ui": {

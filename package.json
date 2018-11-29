@@ -1,7 +1,7 @@
 {
   "name": "arcjetx",
   "version": "1.0.0",
-  "description": "extension for chrome-compatible browsers for accessing sites using the arcjet:// protocol",
+  "description": "extension for chrome-compatible browsers for accessing sites using the .arcjet tld and the arcjet network",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
