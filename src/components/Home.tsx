@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { Splash, Wrap } from './Components'
+import { Splash, Wrap, UserPanel, UploadPanel, SiteList } from '.'
 
-const ReplaceState: React.SFC<{}> = ({}) => {
+const DetectHash: React.SFC<{}> = ({}) => {
   React.useEffect(() => {
     const hash = location.hash.length > 1 && location.hash.substr(1)
   })
@@ -12,8 +12,11 @@ const ReplaceState: React.SFC<{}> = ({}) => {
 export const Index: React.SFC<{}> = ({}) => (
   <Wrap>
     <Splash>
-      <ReplaceState />
-      <p>welcome to arcjet</p>
+      <DetectHash />
+      <p>arcjet</p>
+      <UserPanel />
+      <UploadPanel />
+      <SiteList />
     </Splash>
   </Wrap>
 )
