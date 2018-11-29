@@ -14,10 +14,7 @@ const webRequestHandler = (details: any) => {
 webRequest.onBeforeRequest.addListener(
   webRequestHandler,
   {
-    urls: [
-      'http://*.arcjet/*',
-      'chrome-extension://gicmmlbnpjlcenhoncblehbkojdcnmon/index.html#*',
-    ],
+    urls: ['http://*.arcjet/*'],
   },
   ['blocking', 'requestBody'],
 )

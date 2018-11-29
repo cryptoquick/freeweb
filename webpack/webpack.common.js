@@ -4,7 +4,6 @@ const path = require('path')
 module.exports = {
   entry: {
     index: path.join(__dirname, '../src/index.tsx'),
-    popup: path.join(__dirname, '../src/popup.tsx'),
     options: path.join(__dirname, '../src/options.tsx'),
     background: path.join(__dirname, '../src/background.ts'),
     content_script: path.join(__dirname, '../src/content_script.ts'),

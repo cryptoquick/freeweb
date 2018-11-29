@@ -19,8 +19,8 @@
     "@types/styled-components": "^4.1.2",
     "js-sha3": "^0.8.0",
     "peerjs": "^0.3.18",
-    "react": "16.7.0-alpha.2",
-    "react-dom": "^16.6.3",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
     "sphincs": "^2.2.3",
     "styled-components": "^4.1.2"
   },

@@ -5,7 +5,7 @@ export const GlobalStyle = createGlobalStyle`
   html, body {
     display: flex;
     background-color: black;
-    font-family: 'Open Sans', sans-serif;
+    font-family: monospace;
     font-weight: bold;
     font-size: 16px;
     color: white;
