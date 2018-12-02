@@ -32,12 +32,29 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       ? 'from a content script:' + sender.tab.url
       : 'from the extension',
   )
-  if (request.type == 'addValue') {
-    const hash = sha3_512(request.payload)
-    chrome.storage.local.set({ [hash]: request.payload }, () => {
-      console.log(hash)
-      sendResponse({ response: 200, responseText: 'value added' })
-    })
+  switch (request.type) {
+    case 'addValue': {
+      const hash = sha3_512(request.payload.value)
+      chrome.storage.local.set({ [hash]: request.payload.value }, () => {
+        sendResponse({
+          response: 200,
+          responseText: 'value added',
+          body: JSON.stringify({ hash, size: request.payload.value.length }),
+        })
+      })
+      break
+    }
+    case 'getValue': {
+      console.log(request)
+      chrome.storage.local.get([request.payload.hash], value => {
+        sendResponse({
+          response: 200,
+          responseText: 'value received',
+          body: JSON.stringify({ value: value[request.payload.hash] }),
+        })
+      })
+      break
+    }
   }
   return true
 })

@@ -1,4 +1,5 @@
 import { globalReducer } from 'react-hook-utils'
+import { save, load } from './helpers'
 
 export interface User {
   keys: {
@@ -7,6 +8,6 @@ export interface User {
   }
 }
 
-export const useUser = globalReducer(null, {
-  setKeys: (state, keys) => ({ ...state, keys }),
+export const useUser = globalReducer(load('user', null), {
+  setKeys: (state, keys) => save('user', { ...state, keys }),
 })
