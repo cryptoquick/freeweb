@@ -8,6 +8,7 @@
     "outDir": "dist/js",
     "noEmitOnError": true,
     "jsx": "react",
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "strict": true
   }
 }

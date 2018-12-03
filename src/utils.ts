@@ -28,7 +28,7 @@ export const hexToBytes = (hex: string, len?: number): Uint8Array => {
 
 export const bytesToHex = (arr: Uint8Array): string => {
   const hex: string[] = []
-  for (let c = 0; c < arr.length; c++) {
+  for (const c of arr) {
     hex.push(arr[c].toString(16).padStart(2, '0'))
   }
   return hex.join('')
@@ -51,10 +51,15 @@ export const bytesEquals = (
 
 // Assertions
 export const assert = (assertion: boolean, message: string) => {
-  if (!assertion) throw new Error(`Assertion Error: ${message}`)
+  if (!assertion) {
+    throw new Error(`Assertion Error: ${message}`)
+  }
 }
 
 export const guard = (value: boolean, message: string) => {
-  if (!value) throw new Error(`Assertion Error: ${message}`)
-  else return value
+  if (!value) {
+    throw new Error(`Assertion Error: ${message}`)
+  } else {
+    return value
+  }
 }

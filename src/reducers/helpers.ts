@@ -8,7 +8,9 @@ const binaryEncoder = (_key: string, value: any) => {
 }
 
 const binaryDecoder = (_key: string, value: any) => {
-  if (!value) return null
+  if (!value) {
+    return null
+  }
   if (typeof value === 'string' && value.startsWith('0x')) {
     return hexToBytes(value)
   }
@@ -20,7 +22,10 @@ export const save = <T>(key: string, value: T): T => {
   return value
 }
 
-export const load = <T>(key: string, defaultValue: any): T => {
+export const load = <T>(key: string, defaultValue: T): T => {
   const value = localStorage.getItem(key)
+  if (!value) {
+    return defaultValue
+  }
   return JSON.parse(value, binaryDecoder) || defaultValue
 }

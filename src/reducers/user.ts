@@ -1,13 +1,6 @@
 import { globalReducer } from 'react-hook-utils'
-import { save, load } from './helpers'
+import { load, save } from './helpers'
 
-export interface User {
-  keys: {
-    publicKey: string
-    privateKey: string
-  }
-}
-
-export const useUser = globalReducer(load('user', null), {
+export const useUser = globalReducer(load('user', {}), {
   setKeys: (state, keys) => save('user', { ...state, keys }),
 })

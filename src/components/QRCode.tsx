@@ -1,5 +1,5 @@
-import * as React from 'react'
 import * as qr from 'qrcode'
+import * as React from 'react'
 
 export const QRCode: React.SFC<{ data: string }> = ({ data }) => {
   const [image, setImage] = React.useState(null)

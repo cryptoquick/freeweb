@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { sphincs } from 'sphincs'
 
-import { useUser, User } from '../reducers'
+import { useUser } from '../reducers'
+import { IUser } from '../types'
+import { Button } from './Components'
 import { QRCode } from './QRCode'
 
 const createUser = (dispatch: any) => async () => {
@@ -9,11 +11,11 @@ const createUser = (dispatch: any) => async () => {
 }
 
 export const UserPanel: React.SFC<{}> = ({}) => {
-  const [user, dispatch] = useUser<User>()
+  const [user, dispatch] = useUser<IUser>()
   return (
     <div>
       <p>user</p>
-      {user ? (
+      {user.keys ? (
         <div>
           <p>your public key:</p>
           <p>
@@ -21,7 +23,7 @@ export const UserPanel: React.SFC<{}> = ({}) => {
           </p>
         </div>
       ) : (
-        <button onClick={createUser(dispatch)}>create new user</button>
+        <Button onClick={createUser(dispatch)}>create new user</Button>
       )}
     </div>
   )

@@ -1,12 +1,8 @@
 import { globalReducer } from 'react-hook-utils'
-import { save, load } from './helpers'
+import { IFile } from '../types'
+import { load, save } from './helpers'
 
-export interface File {
-  hash: string
-  size: string
-}
-
-export const useFiles = globalReducer(load<File[]>('files', []), {
-  addFile: (state: File[], file: File) =>
-    save<File[]>('files', { ...state, [file.hash]: file.size }),
+export const useFiles = globalReducer(load<IFile[]>('files', []), {
+  addFile: (state: IFile[], file: IFile) =>
+    save<IFile[]>('files', { ...state, [file.hash]: file.size }),
 })

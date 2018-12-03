@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Splash, Wrap, UserPanel, UploadPanel, SiteList } from '.'
+import { SiteList, Splash, UploadPanel, UserPanel, Wrap } from '.'
 
 const DetectHash: React.SFC<{}> = ({}) => {
   React.useEffect(() => {
