@@ -1,5 +1,7 @@
 # arcjetx (arcjet v4)
 
+## history
+
 The Arcjet design has gone through a number of revisions since its somewhat recent introduction:
 
 - v1 was originally designed with SPHINCS signatures and SHA-3 512-bit hashes, and was expected to be run as a Node/TS program using a traditional client-server model using Express, and the expectation was the proxy all content, including cookies, through a single server, with proxy nodes participating in a P2P network via WebRTC w/PeerJS. A UTF-8 record format was also developed, and records were appended to a logfile, and an index was kept in-memory.
@@ -25,25 +27,27 @@ The Arcjet design has gone through a number of revisions since its somewhat rece
 - Any new data must add a new record, updating other records to point to those records as-needed. No record can be updated in-place, but can notify users who have followed your user on the network, if you add a signature record and associate those with a triple (new record, predicate "was updated by", user record).
 - Old records can be removed locally automatically, but anyone else sharing copies may keep them.
 - Pinning servers may be used in order to keep less popular, or new content persistent without the participation of others. In order to get an account on a pinning server, they may charge customers a fee.
-- A Peer Discovery server in Iceland, which will be the one I'm operating, is used as both a STUN server for NAT traversal and for PEX.
+- A Peer Discovery server is used as both a STUN server for NAT traversal and for basic PEX.
 
-## features
+## feature development roadmap
 
 - [x] typescript and chrome extension
 - [x] SPHINCS signature & quantum resistant public/private keys, store in localStorage and accessible via QR code
-- [ ] upload and storage of files in UTF-8 using chrome extension in browser unlimited storage
-- [ ] peerjs to servers
-- [ ] peerjs to clients
+- [x] upload and storage of files in UTF-8 using chrome extension in browser unlimited storage
+- [ ] data browser
+- [ ] peerjs server
+- [ ] peerjs client
 - [ ] image resize
+- [ ] streaming hashed data format
+- [ ] arcjet metadata indices
 - [ ] lunr search to add index records
 - [ ] static hosting to access sites from the arcjet network
-  - [ ] loads config from this and lists everything
-- [ ] blacklist
+- [ ] encryption and key sharing & keyring (bookmarked site decryption keys)
 - [ ] bookmarks (live updates from users)
-- [ ] other features
-  - [ ] encryption and key sharing
+- [ ] personal content blacklist
+- [ ] local machine & network metrics
+- [ ] whitepaper
+- [ ] decentralized arcjet network apps
   - [ ] emojis
-
-## repo
-
-[GitHub - arcjet/arcjetx: extension for chrome-compatible browsers for accessing sites using the .arcjet tld and the arcjet network](https://github.com/arcjet/arcjetx)
+  - [ ] calendar
+  - [ ] messaging
