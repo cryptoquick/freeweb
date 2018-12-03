@@ -1,12 +1,15 @@
 import * as filesize from 'filesize'
 import * as React from 'react'
 
-import { useFiles } from '../reducers'
+import { IFilesDispatch, useFiles } from '../reducers'
+import { ReactSetter } from '../types'
 import { Button, Textarea } from './Components'
 
 const size = filesize.partial({ fullform: true })
 
-const getValue = (hash: string, setValue: any) => (evt: any) => {
+const getValue = (hash: string, setValue: ReactSetter<null>) => (
+  evt: React.MouseEvent<HTMLParagraphElement>,
+) => {
   evt.preventDefault()
   chrome.runtime.sendMessage(
     { type: 'getValue', payload: { hash } },
@@ -16,7 +19,9 @@ const getValue = (hash: string, setValue: any) => (evt: any) => {
   )
 }
 
-const addValue = (value: string, dispatch: any) => (evt: any) => {
+const addValue = (value: string, dispatch: IFilesDispatch) => (
+  evt: React.MouseEvent<HTMLButtonElement>,
+) => {
   evt.preventDefault()
   chrome.runtime.sendMessage(
     { type: 'addValue', payload: { value } },

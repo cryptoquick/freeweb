@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { sphincs } from 'sphincs'
 
-import { useUser } from '../reducers'
+import { IUserDispatch, useUser } from '../reducers'
 import { IUser } from '../types'
 import { Button } from './Components'
 import { QRCode } from './QRCode'
 
-const createUser = (dispatch: any) => async () => {
+const createUser = (dispatch: IUserDispatch) => async () => {
   dispatch.setKeys(await sphincs.keyPair())
 }
 

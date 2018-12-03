@@ -1,13 +1,13 @@
 import { bytesToHex, hexToBytes } from '../utils'
 
-const binaryEncoder = (_key: string, value: any) => {
+const binaryEncoder = (_key: string, value: {}) => {
   if (value instanceof Uint8Array) {
     return '0x' + bytesToHex(value)
   }
   return value
 }
 
-const binaryDecoder = (_key: string, value: any) => {
+const binaryDecoder = (_key: string, value: {}) => {
   if (!value) {
     return null
   }
