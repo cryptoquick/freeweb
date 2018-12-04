@@ -1,12 +1,11 @@
-import { globalReducer, ReducerInstance } from 'react-hook-utils'
+import { globalReducer, Reducer, ReducerInstance } from 'react-hook-utils'
 
 import { IKeys, IUser } from '../types'
 import { load, save } from './helpers'
 
-export const useUser = globalReducer(load<IUser>('user', {}), {
+const reducerConfig: Reducer<IUser> = {
   setKeys: (state, keys: IKeys) => save('user', { ...state, keys }),
-})
+}
 
-const [_, dispatch] = useUser()
-
-export type IUserDispatch = typeof dispatch
+export const useUser = globalReducer(load<IUser>('user', {}), reducerConfig)
+export type IUserDispatch = ReducerInstance<IUser, typeof reducerConfig>
