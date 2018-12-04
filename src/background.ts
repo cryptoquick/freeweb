@@ -1,5 +1,6 @@
 const { webRequest } = chrome
 import { sha3_512 } from 'js-sha3'
+import { Peers } from './peers'
 
 const webRequestHandler = () => ({
   redirectUrl: 'chrome-extension://gicmmlbnpjlcenhoncblehbkojdcnmon/index.html',
@@ -36,9 +37,13 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       break
     }
     case 'getValue': {
-      chrome.storage.local.get([request.payload.hash], value => {
+      chrome.storage.local.get([request.payload.hash], async values => {
+        let value = values[request.payload.hash]
+        if (!value) {
+          value = await peers.broker.getData(request.payload.hash)
+        }
         sendResponse({
-          body: JSON.stringify({ value: value[request.payload.hash] }),
+          body: JSON.stringify({ value }),
           response: 200,
           responseText: 'value received',
         })
@@ -48,3 +53,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   }
   return true
 })
+
+const peers = new Peers()
+peers.init()

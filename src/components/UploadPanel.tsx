@@ -50,6 +50,14 @@ export const UploadPanel: React.SFC<{}> = ({}) => {
   const setFileHandler = (evt: React.MouseEvent<HTMLButtonElement>) => {
     // evt
   }
+  const searchTextHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    evt.preventDefault()
+    // TODO
+  }
+  const searchHandler = (evt: React.MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault()
+    // TODO
+  }
 
   return (
     <div>
@@ -79,6 +87,15 @@ export const UploadPanel: React.SFC<{}> = ({}) => {
       </div>
       <div>
         <p>files</p>
+        <p>
+          <input type="text" onChange={searchTextHandler} />
+          <button
+            onClick={searchHandler}
+            title="find file by hash on connected peers"
+          >
+            find
+          </button>
+        </p>
         {Object.keys(files).map((hash: string) => {
           return (
             <p key={hash} onClick={getValue(hash, setValue)}>

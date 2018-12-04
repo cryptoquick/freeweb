@@ -32,11 +32,13 @@ The Arcjet design has gone through a number of revisions since its somewhat rece
 ## feature development roadmap
 
 - [x] typescript and chrome extension
-- [x] SPHINCS signature & quantum resistant public/private keys, store in localStorage and accessible via QR code
+- [x] SPHINCS signature & quantum resistant public/private keys, kept in localStorage and accessible via QR code
 - [x] upload and storage of files in UTF-8 using chrome extension in browser unlimited storage
 - [ ] data browser
-- [ ] peerjs server
-- [ ] peerjs client
+- [x] peerjs server
+- [x] peerjs client
+  - [x] simple findHash
+  - [ ] DHT-like network hash search
 - [ ] image resize
 - [ ] streaming hashed data format
 - [ ] arcjet metadata indices
