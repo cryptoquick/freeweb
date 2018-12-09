@@ -1,17 +1,28 @@
 import * as React from 'react'
 import { sphincs } from 'sphincs'
 
-import { IUserDispatch, useUser } from '../reducers'
+import { IFilesDispatch, IUserDispatch, useFiles, useUser } from '../reducers'
 import { IUser } from '../types'
+import { bytesToHex } from '../utils'
 import { Button } from './Components'
+import { addValue } from './helpers'
 import { QRCode } from './QRCode'
 
-const createUser = (dispatch: IUserDispatch) => async () => {
-  dispatch.setKeys(await sphincs.keyPair())
+const createUser = (
+  dispatchUser: IUserDispatch,
+  dispatchFile: IFilesDispatch,
+) => async () => {
+  const keys = await sphincs.keyPair()
+  dispatchUser.setKeys(keys)
+  dispatchFile.addFile({
+    hash: await addValue(bytesToHex(keys.publicKey)),
+    size: 1,
+  })
 }
 
 export const UserPanel: React.SFC<{}> = ({}) => {
-  const [user, dispatch] = useUser<IUser>()
+  const [user, dispatchUser] = useUser<IUser>()
+  const [file, dispatchFile] = useFiles()
   return (
     <div>
       <p>user</p>
@@ -19,11 +30,13 @@ export const UserPanel: React.SFC<{}> = ({}) => {
         <div>
           <p>your public key:</p>
           <p>
-            <QRCode data={user.keys.publicKey} />
+            <QRCode data={file} />
           </p>
         </div>
       ) : (
-        <Button onClick={createUser(dispatch)}>create new user</Button>
+        <Button onClick={createUser(dispatchUser, dispatchFile)}>
+          create new user
+        </Button>
       )}
     </div>
   )

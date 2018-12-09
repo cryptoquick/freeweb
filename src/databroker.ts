@@ -1,4 +1,5 @@
-import * as Peer from 'peerjs'
+/// <reference types="webrtc" />
+import 'webrtc-adapter'
 
 import { IPacket, PacketTypes, Resolver } from './types'
 

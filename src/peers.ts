@@ -1,4 +1,5 @@
-import * as Peer from 'peerjs'
+/// <reference types="webrtc" />
+import 'webrtc-adapter'
 
 import { DataBroker } from './databroker'
 import { IPacket, IPeers, PacketTypes } from './types'
@@ -6,19 +7,22 @@ import { IPacket, IPeers, PacketTypes } from './types'
 export class Peers {
   public broker = new DataBroker()
 
-  private me: string = ''
-  private peers: string[] = []
-  private peer = new Peer({ host: 'localhost', port: 8080, path: '/api' })
+  private local?: RTCPeerConnection
+  private peers: Map<string, RTCPeerConnection> = new Map()
+  private sendChannels: Map<string, RTCDataChannel> = new Map()
+  private lastSiteMessage?: string
+
+  private config = {}
 
   public init() {
-    this.peer.on('open', async (id: string) => {
-      await this.fetchPeers()
-      this.me = id
+    this.local = new RTCPeerConnection(this.config)
 
-      for (const p of this.peers) {
-        this.peer.connect(p)
-      }
-    })
+    for (const p of this.peers.values()) {
+      this.sendChannels.set(
+        await p.peerIdentity,
+        this.local.createDataChannel('arcjetSendChannel'),
+      )
+    }
 
     this.peer.on('connection', async connection => {
       await this.fetchPeers()
@@ -36,9 +40,11 @@ export class Peers {
     })
   }
 
-  private async fetchPeers() {
-    const res = await fetch('http://localhost:8080/peers')
-    this.peers = (await res.json()) as IPeers
-    this.peers = this.peers.filter(p => p !== this.me)
+  private updatePeers() {
+    localStorage.setItem('arcjet/peers', [...this.peers.keys()].join(','))
   }
+
+  private async fetchPeers() {}
+
+  private publishData(data, signature) {}
 }

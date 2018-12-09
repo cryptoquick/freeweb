@@ -14,9 +14,19 @@ export interface IFile {
 
 export type IPeers = string[]
 
-export interface IPacket {
+export interface IPayload<T> {
+  payload: T
+}
+
+export interface IPacket<T> {
   type: string
-  payload: any
+  payload: IPayload<T>
+}
+
+export interface IResponse {
+  body: any
+  status: number
+  statusText: string
 }
 
 export type ReactSetter<D> = React.Dispatch<React.SetStateAction<D>>

@@ -4,38 +4,30 @@ import * as React from 'react'
 import { IFilesDispatch, useFiles } from '../reducers'
 import { ReactSetter } from '../types'
 import { Button, Textarea } from './Components'
+import { addValue, getValue } from './helpers'
 
 const size = filesize.partial({ fullform: true })
 
-const getValue = (hash: string, setValue: ReactSetter<null>) => (
-  evt: React.MouseEvent<HTMLParagraphElement>,
-) => {
+const getValueHandler = (
+  hash: string,
+  setValue: ReactSetter<string | null>,
+) => async (evt: React.MouseEvent<HTMLParagraphElement>) => {
   evt.preventDefault()
-  chrome.runtime.sendMessage(
-    { type: 'getValue', payload: { hash } },
-    response => {
-      setValue(JSON.parse(response.body).value)
-    },
-  )
+  setValue(await getValue(hash))
 }
 
-const addValue = (value: string, dispatch: IFilesDispatch) => (
+const addValueHandler = (value: string, dispatch: IFilesDispatch) => async (
   evt: React.MouseEvent<HTMLButtonElement>,
 ) => {
   evt.preventDefault()
-  chrome.runtime.sendMessage(
-    { type: 'addValue', payload: { value } },
-    response => {
-      dispatch.addFile(JSON.parse(response.body))
-    },
-  )
+  dispatch.addFile(await addValue(value))
 }
 
 export const UploadPanel: React.SFC<{}> = ({}) => {
   const [formState, setFormState] = React.useState('default')
   const [textState, setTextState] = React.useState('')
   const [files, dispatch] = useFiles()
-  const [value, setValue] = React.useState(null)
+  const [value, setValue] = React.useState<string | null>(null)
 
   const setFormStateHandler = (type: string) => () => setFormState(type)
   const setTextareaHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -75,7 +67,9 @@ export const UploadPanel: React.SFC<{}> = ({}) => {
           <div>
             <Textarea onChange={setTextareaHandler} />
             <br />
-            <Button onClick={addValue(textState, dispatch)}>submit</Button>
+            <Button onClick={addValueHandler(textState, dispatch)}>
+              submit
+            </Button>
           </div>
         )}
         {formState === 'file' && (
@@ -98,7 +92,7 @@ export const UploadPanel: React.SFC<{}> = ({}) => {
         </p>
         {Object.keys(files).map((hash: string) => {
           return (
-            <p key={hash} onClick={getValue(hash, setValue)}>
+            <p key={hash} onClick={getValueHandler(hash, setValue)}>
               {hash} - {size(files[hash])}
             </p>
           )
