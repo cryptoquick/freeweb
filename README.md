@@ -1,5 +1,11 @@
 # arcjetx (arcjet v4)
 
+## description
+
+arcjet is a protocol for a new kind of web, one shared by people and not by corporations. any content can be encrypted and shared, and associated with users, pseudonymously. on the _arcnet_, content creators are the only ones responsible for the content they create, not corporations, and not hosts or peers.
+
+technically, it uses cryptography, like hashes, signatures, and encryption, as well as browser realtime communication to build a peer-to-peer network of websites. it uses schemaless values stored by hash using _arclinks_ to describe the information being linked to, but the information itself has no context.
+
 ## history
 
 The Arcjet design has gone through a number of revisions since its somewhat recent introduction:
@@ -35,21 +41,57 @@ The Arcjet design has gone through a number of revisions since its somewhat rece
 - [x] SPHINCS signature & quantum resistant public/private keys, kept in localStorage and accessible via QR code
 - [x] upload and storage of files in UTF-8 using chrome extension in browser unlimited storage
 - [ ] data browser
-- [x] peerjs server
-- [x] peerjs client
-  - [x] simple findHash
-  - [ ] DHT-like network hash search
-- [ ] image resize
+- [ ] webrtc ice server
+- [ ] webrtc client
+  - [ ] findData - DHT-like network hash search
+  - [ ] publishData - publish latest hash to subscribers (w/sig, w/context)
+- [ ] simple canvas-based image resize
 - [ ] streaming hashed data format
 - [ ] arcjet metadata indices
 - [ ] lunr search to add index records
-- [ ] static hosting to access sites from the arcjet network
+- [ ] static hosting to access sites from the arcjet network (eval)
 - [ ] encryption and key sharing & keyring (bookmarked site decryption keys)
-- [ ] bookmarks (live updates from users)
+- [ ] bookmarks
+- [ ] subscriptions (live updates from users)
 - [ ] personal content blacklist
 - [ ] local machine & network metrics
 - [ ] whitepaper
 - [ ] decentralized arcjet network apps
-  - [ ] emojis
-  - [ ] calendar
-  - [ ] messaging
+
+# arcjet app roadmap
+
+arcjet is meant to come with several apps built-in.
+
+- [ ] feed - homepage, shows updates from followed users, and updates to app scripts and app data
+- [ ] user - p2p username service; publishes public keys and associates them with an identity; searchable.
+- [ ] wiki - forkable p2p wiki; searchable
+- [ ] blog - blogging platform like tumblr
+- [ ] meet - meetup replacement
+- [ ] chat - realtime messaging client
+- [ ] play - youtube replacement
+- [ ] mail - p2p email equivalent
+- [ ] rcal - calendar with date generator API
+- [ ] eval - load custom scripts and sites with a metadata disclosure screen (update script version)
+
+## metadata index file format
+
+- meta/type
+- meta/timestamp
+- meta/length
+- hash/parent
+- hash/encrypted_with
+- hash/signature
+- hash/signed_by
+- hash/next - next index file, if there are additional chunks that cannot fit within a 64KB chunk
+- hash/chunk/0
+
+## arclink formats
+
+- index: `http://0x{hash}.arcjet/index`
+- peer: `http://0x{hash}.arcjet/peer/{ice connection string}?date=123123&name=deadcoder`
+- chunk: `http://0x{hash}.arcjet/chunk/{index}`
+
+## peer connectivity methods
+
+- [ ] publishData - publishes signed data to subscribers, updates peer's latestHash
+- [ ] findData - searches peers for data periodically and in a star pattern; peers will contact each other until peers find it, at which point, stop looking for that data
