@@ -14,7 +14,16 @@ export interface IFile {
   size: string
 }
 
-export type IPeers = string[]
+export interface IPeer {
+  id: string
+  handshake: number
+  signals: string[]
+  peer: Peer.Instance
+}
+
+export interface IPeers {
+  [key: string]: IPeer
+}
 
 export interface IPayload<T> {
   payload: T
@@ -29,13 +38,6 @@ export interface IResponse {
   body: any
   status: number
   statusText: string
-}
-
-export interface IPeer {
-  id: string
-  handshake: number
-  signals: string[]
-  peer: Peer.Instance
 }
 
 export type ReactSetter<D> = React.Dispatch<React.SetStateAction<D>>

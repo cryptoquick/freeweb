@@ -1,38 +1,60 @@
+import * as _ from 'lodash'
 import * as Peer from 'simple-peer'
 import * as uuid from 'uuid'
 
-import { IPeer } from './types'
+import { getStorageValue } from './background'
+import { IPeer, IPeers } from './types'
 
 const encode = (data: IPeer) => atob(JSON.stringify(data))
 const decode = (str: string) => JSON.parse(btoa(str))
-const findPeer = (peers: IPeer[], id: string) =>
-  peers.find(peer => peer.id === id)
-const updatePeer = (peers: IPeer[], id: string, peer: IPeer) =>
-  peers.map(p => (p.id === id ? peer : p))
 
-const local = new Peer({
-  trickle: false,
-  initiator: peerData.length === 0,
-})
+let peers: IPeers = {}
+let local: string = ''
+const newPeer = (): string => {
+  const initiator = countPeers() === 0
 
-local.on('signal', data => {
-  setPeerData([...peerData, { id: uuid.v4(), signals: signals.push() }])
-})
+  const peer = new Peer({
+    initiator,
+    trickle: false,
+  })
 
-try {
-  const data = evt.currentTarget.value
-  const validData = decode(data)
+  const id = uuid.v4()
 
-  if (validData) {
-    setPeerData(updatePeer(peerData, validData.id, validData))
-    setIndex(index + 1)
-    const remote = new Peer({ trickle: false })
+  peer.on('signal', signal => {
+    updatePeer(id, { id, signals: [encode(signal)], handshake: 0, peer })
+  })
+
+  return id
+}
+const findPeer = (id: string): IPeer => peers[id]
+const updatePeer = (id: string, peer: IPeer): IPeer => (peers[id] = peer)
+const countPeers = (): number => Object.keys(peers).length
+
+export const connect = (data: string) => {
+  try {
+    const signal = decode(data)
+
+    if (signal) {
+      updatePeer(signal.id, signal)
+      const remote = new Peer({ trickle: false })
+    }
+  } catch (err) {
+    console.error(err)
   }
-} catch (err) {
-  console.error(err)
 }
 
-export class Peers {}
+export const init = async () => {
+  peers = JSON.parse(await getStorageValue('arcjet/peers'))
+  local = newPeer()
+  if (countPeers() > 1) {
+    _(peers)
+      .filter(({ id }) => id !== local)
+      .forEach(remote => {
+        // TODO reconnect logic
+        console.log(remote)
+      })
+  }
+}
 
 // import { DataBroker } from './databroker'
 // import { IPacket, IPeers, PacketTypes } from './types'

@@ -27,14 +27,6 @@ chrome.browserAction.onClicked.addListener(tab => {
   })
 })
 
-// const peers = new Map<string, IPeer>()
-
-// const stats = {
-//   peers: {
-//     count: 0,
-//   },
-// }
-
 interface IKeyValue {
   [key: string]: string
 }
