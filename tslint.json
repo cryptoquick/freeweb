@@ -15,7 +15,9 @@
       "allow-leading-underscore",
       "allow-pascal-case",
       "allow-camel-case"
-    ]
+    ],
+    "no-duplicate-imports": true,
+    "no-unused-expression": true
     // "no-any": true
   },
   "rulesDirectory": []

@@ -1,5 +1,5 @@
 import { IFilesDispatch, useFiles } from '../reducers'
-import { IPayload, IResponse, Resolver } from '../types'
+import { EventTypes, IPayload, IResponse, Resolver } from '../types'
 
 export const resolver = (resolve: Resolver, reject: Resolver) => (
   response: IResponse,
@@ -20,7 +20,7 @@ export const sendMessage = <REQ>(
   })
 
 export const getValue = (hash: string): Promise<string> =>
-  sendMessage<{ hash: string }>('getValue', { payload: { hash } })
+  sendMessage<{ hash: string }>(EventTypes.GET, { payload: { hash } })
 
-export const addValue = (value: string): Promise<string> =>
-  sendMessage('addValue', { payload: { value } })
+export const setValue = (value: string): Promise<string> =>
+  sendMessage(EventTypes.SET, { payload: { value } })

@@ -2,10 +2,11 @@ import * as React from 'react'
 import { sphincs } from 'sphincs'
 
 import { IFilesDispatch, IUserDispatch, useFiles, useUser } from '../reducers'
-import { IUser } from '../types'
+import { IFile, IUser } from '../types'
 import { bytesToHex } from '../utils'
 import { Button } from './Components'
-import { addValue } from './helpers'
+import { setValue } from './helpers'
+import { Peers } from './Peers'
 import { QRCode } from './QRCode'
 
 const createUser = (
@@ -15,22 +16,22 @@ const createUser = (
   const keys = await sphincs.keyPair()
   dispatchUser.setKeys(keys)
   dispatchFile.addFile({
-    hash: await addValue(bytesToHex(keys.publicKey)),
+    hash: await setValue(bytesToHex(keys.publicKey)),
     size: 1,
   })
 }
 
 export const UserPanel: React.SFC<{}> = ({}) => {
   const [user, dispatchUser] = useUser<IUser>()
-  const [file, dispatchFile] = useFiles()
+  const [file, dispatchFile] = useFiles<IFile>()
   return (
     <div>
       <p>user</p>
-      {user.keys ? (
+      {file ? (
         <div>
           <p>your public key:</p>
           <p>
-            <QRCode data={file} />
+            <QRCode data={file.hash} />
           </p>
         </div>
       ) : (
@@ -38,6 +39,8 @@ export const UserPanel: React.SFC<{}> = ({}) => {
           create new user
         </Button>
       )}
+      <p>peers</p>
+      <Peers />
     </div>
   )
 }

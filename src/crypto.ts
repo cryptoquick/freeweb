@@ -1,5 +1,25 @@
 import { assert } from './utils'
 
+export const interleave = () => {
+  return
+}
+
+export const deinterleave = () => {
+  return
+}
+
+export const box = () => {
+  return
+}
+
+export const unbox = () => {
+  return
+}
+
+export const generateKeys = () => {
+  return
+}
+
 export const sign = async (data: string, secretKey: string) => {
   assert(secretKey.length > 0, 'has secret key')
   // TODO SPHINCS sign

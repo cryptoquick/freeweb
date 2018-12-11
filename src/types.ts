@@ -1,3 +1,5 @@
+import * as Peer from 'simple-peer'
+
 export interface IKeys {
   publicKey: string
   privateKey: string
@@ -29,11 +31,21 @@ export interface IResponse {
   statusText: string
 }
 
-export type ReactSetter<D> = React.Dispatch<React.SetStateAction<D>>
-
-export enum PacketTypes {
-  findHash = 'findHash',
-  foundHash = 'foundHash',
+export interface IPeer {
+  id: string
+  handshake: number
+  signals: string[]
+  peer: Peer.Instance
 }
 
+export type ReactSetter<D> = React.Dispatch<React.SetStateAction<D>>
+
 export type Resolver = (value: any) => void
+
+export enum EventTypes {
+  FIND = 'FIND',
+  FOUND = 'FOUND',
+  GET = 'GET',
+  SET = 'SET',
+  CONNECT = 'CONNECT',
+}

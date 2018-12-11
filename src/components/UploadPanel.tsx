@@ -4,30 +4,30 @@ import * as React from 'react'
 import { IFilesDispatch, useFiles } from '../reducers'
 import { ReactSetter } from '../types'
 import { Button, Textarea } from './Components'
-import { addValue, getValue } from './helpers'
+import { getValue, setValue } from './helpers'
 
 const size = filesize.partial({ fullform: true })
 
 const getValueHandler = (
   hash: string,
-  setValue: ReactSetter<string | null>,
+  setItemValue: ReactSetter<string | null>,
 ) => async (evt: React.MouseEvent<HTMLParagraphElement>) => {
   evt.preventDefault()
-  setValue(await getValue(hash))
+  setItemValue(await getValue(hash))
 }
 
 const addValueHandler = (value: string, dispatch: IFilesDispatch) => async (
   evt: React.MouseEvent<HTMLButtonElement>,
 ) => {
   evt.preventDefault()
-  dispatch.addFile(await addValue(value))
+  dispatch.addFile(await setValue(value))
 }
 
 export const UploadPanel: React.SFC<{}> = ({}) => {
   const [formState, setFormState] = React.useState('default')
   const [textState, setTextState] = React.useState('')
   const [files, dispatch] = useFiles()
-  const [value, setValue] = React.useState<string | null>(null)
+  const [value, setItemValue] = React.useState<string | null>(null)
 
   const setFormStateHandler = (type: string) => () => setFormState(type)
   const setTextareaHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -92,7 +92,7 @@ export const UploadPanel: React.SFC<{}> = ({}) => {
         </p>
         {Object.keys(files).map((hash: string) => {
           return (
-            <p key={hash} onClick={getValueHandler(hash, setValue)}>
+            <p key={hash} onClick={getValueHandler(hash, setItemValue)}>
               {hash} - {size(files[hash])}
             </p>
           )
