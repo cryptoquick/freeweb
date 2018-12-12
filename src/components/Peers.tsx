@@ -17,6 +17,11 @@ export const Peers = () => {
     evt.preventDefault()
   }
 
+  const value =
+    peerData[index] && peerData[index].handshake
+      ? peerData[index].signals[peerData[index].handshake]
+      : ''
+
   return (
     <div>
       <ul>
@@ -26,7 +31,7 @@ export const Peers = () => {
         <li>
           add peer data:
           <CopyableField
-            value={peerData[index]}
+            value={value}
             onChange={changeHandler}
             onSubmit={submitHandler}
           />

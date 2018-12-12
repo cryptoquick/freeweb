@@ -2,7 +2,7 @@ import * as _ from 'lodash'
 import * as Peer from 'simple-peer'
 import * as uuid from 'uuid'
 
-import { getStorageValue } from './background'
+import { getStorageValue } from './storage'
 import { IPeer, IPeers } from './types'
 
 const encode = (data: IPeer) => atob(JSON.stringify(data))
@@ -10,7 +10,7 @@ const decode = (str: string) => JSON.parse(btoa(str))
 
 let peers: IPeers = {}
 let local: string = ''
-const newPeer = (): string => {
+export const newPeer = (): string => {
   const initiator = countPeers() === 0
 
   const peer = new Peer({
@@ -21,14 +21,15 @@ const newPeer = (): string => {
   const id = uuid.v4()
 
   peer.on('signal', signal => {
+    console.log(signal)
     updatePeer(id, { id, signals: [encode(signal)], handshake: 0, peer })
   })
 
   return id
 }
-const findPeer = (id: string): IPeer => peers[id]
-const updatePeer = (id: string, peer: IPeer): IPeer => (peers[id] = peer)
-const countPeers = (): number => Object.keys(peers).length
+export const findPeer = (id: string): IPeer => peers[id]
+export const updatePeer = (id: string, peer: IPeer): IPeer => (peers[id] = peer)
+export const countPeers = (): number => Object.keys(peers).length
 
 export const connect = (data: string) => {
   try {
@@ -44,6 +45,7 @@ export const connect = (data: string) => {
 }
 
 export const init = async () => {
+  console.log(getStorageValue)
   peers = JSON.parse(await getStorageValue('arcjet/peers'))
   local = newPeer()
   if (countPeers() > 1) {
