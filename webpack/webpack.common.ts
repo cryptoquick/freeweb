@@ -1,7 +1,7 @@
-const webpack = require('webpack')
-const path = require('path')
+import * as webpack from 'webpack'
+import * as path from 'path'
 
-module.exports = {
+export default {
   entry: {
     index: path.join(__dirname, '../src/index.tsx'),
     options: path.join(__dirname, '../src/options.tsx'),
