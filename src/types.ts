@@ -1,5 +1,3 @@
-import * as Peer from 'simple-peer'
-
 export interface IKeys {
   publicKey: string
   privateKey: string
@@ -18,7 +16,6 @@ export interface IPeer {
   id: string
   handshake: number
   signals: string[]
-  peer: Peer.Instance
 }
 
 export interface IPeers {

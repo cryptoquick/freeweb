@@ -1,11 +1,8 @@
 const { webRequest } = chrome
 import { sha3_512 } from 'js-sha3'
 
-import * as Peers from './peers'
 import { getStorageValue, setStorageValue } from './storage'
 import { EventTypes } from './types'
-
-Peers.init()
 
 const webRequestHandler = () => ({
   redirectUrl: 'chrome-extension://gicmmlbnpjlcenhoncblehbkojdcnmon/index.html',
@@ -54,7 +51,6 @@ chrome.runtime.onMessage.addListener(async (request, _sender, sendResponse) => {
       break
     }
     case EventTypes.CONNECT: {
-      Peers.newPeer()
       break
     }
   }
