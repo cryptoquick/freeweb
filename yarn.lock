@@ -2147,7 +2147,7 @@ joi@14.x.x:
     isemail "3.x.x"
     topo "3.x.x"
 
-js-sha3@^0.8.0, js-sha3@~0.8.0:
+js-sha3@~0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.8.0.tgz#b9b7a5da73afad7dedd0f8c463954cbde6818840"
   integrity sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==
@@ -3659,11 +3659,6 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-sphincs@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/sphincs/-/sphincs-2.2.3.tgz#bc5252992ec3b9dd0231b162a754697b98fb97fb"
-  integrity sha512-JOtIBEOuNzYeLxnd4GzfgKPoRmZjnEu8St3fIN1SWI/g/n+T2+0lqImyd+DWi8O9B8ZM+PXbDuCruQf1aGuS1A==
-
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
@@ -3987,7 +3982,7 @@ ts-node@^8.0.3:
     source-map-support "^0.5.6"
     yn "^3.0.0"
 
-tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1, tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   integrity sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==
@@ -4043,6 +4038,13 @@ tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
+
+tweetnacl-ts@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tweetnacl-ts/-/tweetnacl-ts-1.0.3.tgz#ae4f31be6ca40e1b310f7fa47c0488ad71c0de7f"
+  integrity sha512-C5I/dWf6xjAXaCDlf84T4HvozU/8ycAlq5WRllF1hAeeq5390tfXD+bNas5bhEV0HMSOx8bsQYpLjPl8wfnEeQ==
+  dependencies:
+    tslib "^1"
 
 tweetnacl@^1.0.0:
   version "1.0.1"

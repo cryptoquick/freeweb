@@ -1,6 +1,5 @@
-interface IKeyValue {
-  [key: string]: string
-}
+import { IKeyValue } from './types'
+import { serialize, deserialize } from './encoding'
 
 export const setStorageValues = async (obj: IKeyValue): Promise<{}> =>
   new Promise(resolve => {
@@ -9,13 +8,6 @@ export const setStorageValues = async (obj: IKeyValue): Promise<{}> =>
     })
   })
 
-export const setStorageValue = async (
-  key: string,
-  value: string,
-): Promise<void> => {
-  await setStorageValues({ [key]: value })
-}
-
 export const getStorageValues = async (keys: string[]): Promise<{}> =>
   new Promise(resolve => {
     chrome.storage.local.get(keys, values => {
@@ -23,7 +15,14 @@ export const getStorageValues = async (keys: string[]): Promise<{}> =>
     })
   })
 
-export const getStorageValue = async (key: string): Promise<string> => {
+export const setStorageValue = async (
+  key: string,
+  value: any,
+): Promise<void> => {
+  await setStorageValues({ [key]: serialize(value) })
+}
+
+export const getStorageValue = async <T>(key: string): Promise<T> => {
   const result: IKeyValue = await getStorageValues([key])
-  return result[key]
+  return deserialize(result[key])
 }

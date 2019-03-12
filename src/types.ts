@@ -3,6 +3,10 @@ export interface IKeys {
   privateKey: string
 }
 
+export interface IKeyValue {
+  [key: string]: string
+}
+
 export interface IUser {
   keys?: IKeys
 }

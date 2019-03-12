@@ -1,17 +1,18 @@
 const { webRequest } = chrome
-import { sha3_512 } from 'js-sha3'
 
 import { getStorageValue, setStorageValue } from './storage'
 import { EventTypes } from './types'
+import { hashBlockHex } from './crypto'
+import { serialize } from './encoding'
 
 const webRequestHandler = () => ({
-  redirectUrl: 'chrome-extension://gicmmlbnpjlcenhoncblehbkojdcnmon/index.html',
+  redirectUrl: `chrome-extension://${chrome.runtime.id}/index.html`,
 })
 
 webRequest.onBeforeRequest.addListener(
   webRequestHandler,
   {
-    urls: ['http://*.arcjet/*'],
+    urls: ['http://*.free/*'],
   },
   ['blocking', 'requestBody'],
 )
@@ -21,17 +22,17 @@ chrome.browserAction.onClicked.addListener(tab => {
     return
   }
   chrome.tabs.update(tab.id, {
-    url: 'chrome-extension://gicmmlbnpjlcenhoncblehbkojdcnmon/index.html',
+    url: `chrome-extension://${chrome.runtime.id}/index.html`,
   })
 })
 
 chrome.runtime.onMessage.addListener(async (request, _sender, sendResponse) => {
   switch (request.type) {
     case EventTypes.SET: {
-      const hash = sha3_512(request.payload.value)
+      const hash = hashBlockHex(request.payload.value)
       await setStorageValue(hash, request.payload.value)
       sendResponse({
-        body: JSON.stringify({ hash, size: request.payload.value.length }),
+        body: serialize({ hash, size: request.payload.value.length }),
         response: 200,
         responseText: 'value added',
       })
@@ -44,7 +45,7 @@ chrome.runtime.onMessage.addListener(async (request, _sender, sendResponse) => {
         // result = await peers.broker.getData(request.payload.hash)
       }
       sendResponse({
-        body: JSON.stringify({ value: result }),
+        body: serialize({ value: result }),
         response: 200,
         responseText: 'value received',
       })

@@ -13,7 +13,7 @@ export const Index: React.SFC<{}> = ({}) => (
   <Wrap>
     <Splash>
       <DetectHash />
-      <p>arcjet</p>
+      <p>FreeWeb</p>
       <UserPanel />
       <UploadPanel />
       <SiteList />

@@ -1,12 +1,10 @@
 import { assert } from './utils'
+import { blake2b, ByteArray, encodeHex } from 'tweetnacl-ts'
 
-export const interleave = () => {
-  return
-}
+export const hashBlock = (input: ByteArray): ByteArray => blake2b(input)
 
-export const deinterleave = () => {
-  return
-}
+export const hashBlockHex = (input: ByteArray): string =>
+  encodeHex(hashBlock(input))
 
 export const box = () => {
   return

@@ -1,7 +1,7 @@
 {
-  "name": "arcjetx",
+  "name": "freeweb",
   "version": "0.1.0",
-  "description": "extension for chrome-compatible browsers for accessing sites using the .arcjet tld and the arcjet network",
+  "description": "extension for chrome-compatible browsers for accessing sites using the .free TLD and FreeWeb",
   "main": "index.js",
   "scripts": {
     "start": "webpack --config webpack/webpack.dev.ts --watch",
@@ -12,7 +12,7 @@
   "license": "UNLICENSE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arcjet/arcjetx.git"
+    "url": "https://github.com/cryptoquick/freeweb.git"
   },
   "dependencies": {
     "@types/chrome": "^0.0.81",
@@ -25,15 +25,14 @@
     "@types/uuid": "^3.4.4",
     "@types/webrtc": "^0.0.24",
     "filesize": "^4.1.2",
-    "js-sha3": "^0.8.0",
     "libp2p-webrtc-star": "git+https://github.com/cryptoquick/js-libp2p-webrtc-star.git#82f1eaa5ee046f18d515a1b53cbe174c32218868",
     "lodash": "^4.17.11",
     "qrcode": "^1.3.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-hook-utils": "^1.0.6",
-    "sphincs": "^2.2.3",
     "styled-components": "^4.1.3",
+    "tweetnacl-ts": "^1.0.3",
     "uuid": "^3.3.2",
     "webrtc-adapter": "^7.2.1"
   },

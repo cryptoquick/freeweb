@@ -1,11 +1,12 @@
 import { globalReducer, Reducer, ReducerInstance } from 'react-hook-utils'
-import { IFile } from '../types'
-import { load, save } from './helpers'
+import { IFile, IKeyValue } from '../types'
 
-const reducerConfig = {
-  addFile: (state: IFile[], file: IFile) =>
-    save<IFile[]>('files', { ...state, [file.hash]: file.size }),
+const reducerConfig: Reducer<IKeyValue> = {
+  addFile: (state: IKeyValue, file: IFile) => ({
+    ...state,
+    [file.hash]: file.size,
+  }),
 }
 
-export const useFiles = globalReducer(load<IFile[]>('files', []), reducerConfig)
-export type IFilesDispatch = ReducerInstance<IFile[], typeof reducerConfig>
+export const useFiles = globalReducer({}, reducerConfig)
+export type IFilesDispatch = ReducerInstance<IKeyValue, typeof reducerConfig>
