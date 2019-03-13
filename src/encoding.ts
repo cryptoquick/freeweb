@@ -1,4 +1,4 @@
-import { encodeHex, decodeHex } from 'tweetnacl-ts'
+import { decodeHex, encodeHex } from 'tweetnacl-ts'
 
 const HEX_PREFIX = '0x'
 const DATE_PREFIX = '__TIME:'

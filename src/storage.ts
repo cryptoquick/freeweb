@@ -1,5 +1,5 @@
+import { deserialize, serialize } from './encoding'
 import { IKeyValue } from './types'
-import { serialize, deserialize } from './encoding'
 
 export const setStorageValues = async (obj: IKeyValue): Promise<{}> =>
   new Promise(resolve => {

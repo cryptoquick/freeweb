@@ -18,7 +18,6 @@
     ],
     "no-duplicate-imports": true,
     "no-unused-expression": true
-    // "no-any": true
   },
   "rulesDirectory": []
 }

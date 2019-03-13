@@ -1,3 +1,4 @@
-chrome.runtime.sendMessage({ text: 'hey' }, function(response) {
-  console.log('Response: ', response)
-})
+export const createClientKey = () =>
+  new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ text: 'hey' }, response => {})
+  })

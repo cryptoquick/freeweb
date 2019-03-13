@@ -7,8 +7,6 @@ export const Peers = () => {
   const [peerData, setPeerData] = React.useState<IPeer[]>([])
   const [index, setIndex] = React.useState(0)
 
-  React.useEffect(() => {}, [])
-
   const submitHandler = (evt: React.FormEvent) => {
     evt.preventDefault()
   }

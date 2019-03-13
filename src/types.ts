@@ -30,9 +30,9 @@ export interface IPayload<T> {
   payload: T
 }
 
-export interface IPacket<T> {
-  type: string
-  payload: IPayload<T>
+export interface IRequest<T> {
+  method: string
+  body: T
 }
 
 export interface IResponse {
@@ -45,10 +45,12 @@ export type ReactSetter<D> = React.Dispatch<React.SetStateAction<D>>
 
 export type Resolver = (value: any) => void
 
-export enum EventTypes {
+export enum LocalMessageTypes {
   FIND = 'FIND',
   FOUND = 'FOUND',
   GET = 'GET',
   SET = 'SET',
   CONNECT = 'CONNECT',
+  CREATE_CLIENT_KEY = 'CREATE_CLIENT_KEY',
+  CREATE_SITE_KEY = 'CREATE_SITE_KEY',
 }

@@ -1,5 +1,5 @@
-import { assert } from './utils'
 import { blake2b, ByteArray, encodeHex } from 'tweetnacl-ts'
+import { assert } from './utils'
 
 export const hashBlock = (input: ByteArray): ByteArray => blake2b(input)
 

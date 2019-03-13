@@ -1,9 +1,9 @@
 const { webRequest } = chrome
 
-import { getStorageValue, setStorageValue } from './storage'
-import { EventTypes } from './types'
 import { hashBlockHex } from './crypto'
 import { serialize } from './encoding'
+import { getStorageValue, setStorageValue } from './storage'
+import { LocalMessageTypes } from './types'
 
 const webRequestHandler = () => ({
   redirectUrl: `chrome-extension://${chrome.runtime.id}/index.html`,
@@ -28,7 +28,7 @@ chrome.browserAction.onClicked.addListener(tab => {
 
 chrome.runtime.onMessage.addListener(async (request, _sender, sendResponse) => {
   switch (request.type) {
-    case EventTypes.SET: {
+    case LocalMessageTypes.SET: {
       const hash = hashBlockHex(request.payload.value)
       await setStorageValue(hash, request.payload.value)
       sendResponse({
@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener(async (request, _sender, sendResponse) => {
       })
       break
     }
-    case EventTypes.GET: {
+    case LocalMessageTypes.GET: {
       let result = await getStorageValue(request.payload.hash)
       if (!result) {
         result = ''
@@ -51,7 +51,7 @@ chrome.runtime.onMessage.addListener(async (request, _sender, sendResponse) => {
       })
       break
     }
-    case EventTypes.CONNECT: {
+    case LocalMessageTypes.CONNECT: {
       break
     }
   }
