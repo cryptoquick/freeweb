@@ -30,13 +30,13 @@ export interface IPayload<T> {
   payload: T
 }
 
-export interface IRequest<T> {
+export interface IRequest<I> {
   method: string
-  body: T
+  body: I
 }
 
-export interface IResponse {
-  body: any
+export interface IResponse<O> {
+  body: O
   status: number
   statusText: string
 }
@@ -45,7 +45,7 @@ export type ReactSetter<D> = React.Dispatch<React.SetStateAction<D>>
 
 export type Resolver = (value: any) => void
 
-export enum LocalMessageTypes {
+export enum MessageMethods {
   FIND = 'FIND',
   FOUND = 'FOUND',
   GET = 'GET',

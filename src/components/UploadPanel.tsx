@@ -1,10 +1,10 @@
 import * as filesize from 'filesize'
 import * as React from 'react'
 
+import { fetch } from '../messaging'
 import { IFilesDispatch, useFiles } from '../reducers'
-import { ReactSetter } from '../types'
+import { MessageMethods, ReactSetter } from '../types'
 import { Button, Textarea } from './Components'
-import { getValue, setValue } from './helpers'
 
 const size = filesize.partial({ fullform: true })
 
@@ -13,14 +13,14 @@ const getValueHandler = (
   setItemValue: ReactSetter<string | null>,
 ) => async (evt: React.MouseEvent<HTMLParagraphElement>) => {
   evt.preventDefault()
-  setItemValue(await getValue(hash))
+  setItemValue(await fetch({ method: MessageMethods.GET, body: hash }))
 }
 
 const addValueHandler = (value: string, dispatch: IFilesDispatch) => async (
   evt: React.MouseEvent<HTMLButtonElement>,
 ) => {
   evt.preventDefault()
-  dispatch.addFile(await setValue(value))
+  dispatch.addFile(await fetch({ method: MessageMethods.SET, body: value }))
 }
 
 export const UploadPanel: React.SFC<{}> = ({}) => {

@@ -3,34 +3,34 @@ import * as webpack from 'webpack'
 
 export default {
   entry: {
+    background: path.join(__dirname, '../src/background.ts'),
     index: path.join(__dirname, '../src/index.tsx'),
     options: path.join(__dirname, '../src/options.tsx'),
-    background: path.join(__dirname, '../src/background.ts'),
-  },
-  output: {
-    path: path.join(__dirname, '../dist/js'),
-    filename: '[name].js',
-  },
-  optimization: {
-    splitChunks: {
-      name: 'vendor',
-      chunks: 'initial',
-    },
   },
   module: {
     rules: [
       {
+        exclude: /node_modules/,
         test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: /node_modules/,
       },
     ],
   },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+  optimization: {
+    splitChunks: {
+      chunks: 'initial',
+      name: 'vendor',
+    },
+  },
+  output: {
+    filename: '[name].js',
+    path: path.join(__dirname, '../dist/js'),
   },
   plugins: [
     // exclude locale files in moment
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
 }
