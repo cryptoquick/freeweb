@@ -2,8 +2,9 @@ const { webRequest } = chrome
 
 import { hashBlockHex } from './crypto'
 import { serialize } from './encoding'
-import { getStorageValue, setStorageValue } from './storage'
+import * as ipfs from './ipfs/index'
 import { MessageMethods } from './types'
+import { getStorageValue, setStorageValue } from './utils'
 
 const webRequestHandler = () => ({
   redirectUrl: `chrome-extension://${chrome.runtime.id}/index.html`,
@@ -58,5 +59,4 @@ chrome.runtime.onMessage.addListener(async (request, _sender, sendResponse) => {
   return true
 })
 
-// const peers = new Peers()
-// peers.init()
+ipfs.init()
