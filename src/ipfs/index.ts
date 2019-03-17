@@ -1,6 +1,8 @@
 // @ts-ignore
 import IPFS from 'ipfs'
 // @ts-ignore
+import CID from 'cids'
+// @ts-ignore
 import Libp2p from 'libp2p'
 // @ts-ignore
 import KadDHT from 'libp2p-kad-dht'
@@ -20,11 +22,18 @@ const libp2pBundle = ({ peerBook, peerInfo }: any) => {
   return new Libp2p({
     config: {
       EXPERIMENTAL: {
-        dht: true,
+        // dht: true,
         pubsub: true,
       },
       dht: {
+        enabled: true,
         kBucketSize: 20,
+        randomWalk: {
+          enabled: false,
+          interval: 30000,
+          queriesPerPeriod: 1,
+          timeout: 10000,
+        },
       },
       peerDiscovery: {
         [wstar.discovery.tag]: {
@@ -34,7 +43,7 @@ const libp2pBundle = ({ peerBook, peerInfo }: any) => {
     },
     connectionManager: {
       maxPeers: 60,
-      pollInterval: 60000,
+      pollInterval: 5000,
     },
     modules: {
       connEncryption: [SECIO],
@@ -50,9 +59,14 @@ const libp2pBundle = ({ peerBook, peerInfo }: any) => {
 const node = new IPFS({
   config: {
     Addresses: {
+      // Swarm: ['/dns/freeweb.foundation/wss/p2p-webrtc-star'],
       Swarm: ['/dns4/127.0.0.1/tcp/9090/ws/p2p-webrtc-star'],
     },
     Bootstrap: [],
+    EXPERIMENTAL: {
+      dht: true,
+      pubsub: false,
+    },
   },
   libp2p: libp2pBundle,
   preload: {
@@ -106,26 +120,31 @@ export const init = () => {
     setTimeout(() => {
       setInterval(async () => {
         try {
-          // const filesAdded = await node.add({
-          //   content: Buffer.from('FreeWeb says, Hello World!'),
-          //   path: 'hello.txt',
-          // })
+          if (localStorage.hello === 'hello') {
+            const filesAdded = await node.add({
+              content: Buffer.from('FreeWeb says, Hello World!'),
+              path: 'hello.txt',
+            })
 
-          // console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
+            const { path, hash } = filesAdded[0]
 
-          // try {
-          //   console.info('pinning', filesAdded[0].hash)
-          //   await node.pin.add(filesAdded[0].hash)
-          //   console.info('pinned')
-          // } catch (err) {
-          //   console.error(err)
-          // }
+            console.log('Added file:', path, hash)
 
-          console.log('searching', node)
+            try {
+              console.info('pinning', hash)
+              await node.pin.add(hash)
+              await node.dht.provide(new CID(hash))
+              console.info('pinned')
+            } catch (err) {
+              console.error(err)
+            }
+          }
+
+          console.log('searching')
           const fileBuffer = await node.cat(
             'QmWKZ2mMh1e5CdZ72p7MAz72vxacnPNZRR8zVzxnksHqe8',
           )
-          console.log('found', fileBuffer)
+          console.log('found')
           console.log('file contents:', fileBuffer.toString())
         } catch (err) {
           console.error(err)
