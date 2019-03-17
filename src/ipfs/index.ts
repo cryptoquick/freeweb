@@ -3,8 +3,6 @@ import IPFS from 'ipfs'
 // @ts-ignore
 import Libp2p from 'libp2p'
 // @ts-ignore
-import Bootstrap from 'libp2p-bootstrap'
-// @ts-ignore
 import KadDHT from 'libp2p-kad-dht'
 // @ts-ignore
 import SECIO from 'libp2p-secio'
@@ -12,36 +10,14 @@ import SECIO from 'libp2p-secio'
 import WebRTCStar from 'libp2p-webrtc-star'
 
 import assert from 'assert'
+import { decodeUTF8 } from 'tweetnacl-ts'
 
-/**
- * Options for the libp2p bundle
- * @typedef {Object} libp2pBundle~options
- * @property {PeerInfo} peerInfo - The PeerInfo of the IPFS node
- * @property {PeerBook} peerBook - The PeerBook of the IPFS node
- * @property {Object} config - The config of the IPFS node
- * @property {Object} options - The options given to the IPFS node
- */
-
-/**
- * This is the bundle we will use to create our fully customized libp2p bundle.
- *
- * @param {libp2pBundle~options} opts The options to use when generating the libp2p node
- * @returns {Libp2p} Our new libp2p node
- */
-const libp2pBundle = (opts: any) => {
-  // Set convenience variables to clearly showcase some of the useful things that are available
-  const peerInfo = opts.peerInfo
-  const peerBook = opts.peerBook
-  const bootstrapList = opts.config.Bootstrap
-
-  // Create our WebSocketStar transport and give it our PeerId, straight from the ipfs node
-  const webrtcstar = new WebRTCStar({
+const libp2pBundle = ({ peerBook, peerInfo }: any) => {
+  const wstar = new WebRTCStar({
     id: peerInfo.id,
   })
 
-  // Build and return our libp2p node
   return new Libp2p({
-    // Lets limit the connection managers peers and have it check peer health less frequently
     config: {
       EXPERIMENTAL: {
         dht: true,
@@ -51,55 +27,52 @@ const libp2pBundle = (opts: any) => {
         kBucketSize: 20,
       },
       peerDiscovery: {
-        bootstrap: {
-          enabled: true,
-          interval: 10000,
-          list: bootstrapList,
-        },
-        mdns: {
-          enabled: true,
-          interval: 10000,
-        },
-      },
-      // Turn on relay with hop active so we can connect to more peers
-      relay: {
-        enabled: true,
-        hop: {
-          active: true,
+        [wstar.discovery.tag]: {
           enabled: true,
         },
       },
     },
     connectionManager: {
-      maxPeers: 25,
-      pollInterval: 5000,
+      maxPeers: 60,
+      pollInterval: 60000,
     },
     modules: {
       connEncryption: [SECIO],
       dht: KadDHT,
-      peerDiscovery: [Bootstrap, webrtcstar.discovery],
-      transport: [webrtcstar],
+      peerDiscovery: [wstar.discovery],
+      transport: [wstar],
     },
     peerBook,
     peerInfo,
   })
 }
 
-// Now that we have our custom libp2p bundle, let's start up the ipfs node!
 const node = new IPFS({
+  config: {
+    Addresses: {
+      Swarm: ['/dns4/127.0.0.1/tcp/9090/ws/p2p-webrtc-star'],
+    },
+    Bootstrap: [],
+  },
   libp2p: libp2pBundle,
+  preload: {
+    addresses: [],
+    enabled: false,
+  },
 })
 
-// Listen for the node to start, so we can log out some metrics
 export const init = () => {
+  node.on('error', (error: Error) => {
+    console.error(error.message)
+  })
+
   node.once('start', async (startError: Error) => {
     assert.ifError(startError)
 
-    setInterval(() => {
+    setInterval(async () => {
       node.swarm.peers((err: Error, peers: any[]) => {
         if (err) {
           console.log('An error occurred trying to check our peers:', err)
-          process.exit(1)
         }
         console.log(`The node now has ${peers.length} peers.`)
       })
@@ -108,10 +81,56 @@ export const init = () => {
         if (err) {
           console.log('An error occurred trying to check our stats:', err)
         }
-        console.log(`\nBandwidth Stats: ${JSON.stringify(stats, null, 2)}\n`)
+        console.log(`Bandwidth Stats: ${JSON.stringify(stats, null, 2)}`)
+      })
+
+      node.stats.repo((err: Error, stats: any) => {
+        if (err) {
+          console.log('An error occurred trying to check our stats:', err)
+        }
+        console.log(`Repo Stats: ${JSON.stringify(stats, null, 2)}`)
       })
     }, 4000)
   })
 
-  //   node.
+  node.on('ready', async () => {
+    const { Buffer } = node.types
+    const { version } = await node.version()
+
+    console.log('Version:', version)
+
+    node.config.get((err: Error, config: any) => {
+      console.log('Config:', config)
+    })
+
+    setTimeout(() => {
+      setInterval(async () => {
+        try {
+          // const filesAdded = await node.add({
+          //   content: Buffer.from('FreeWeb says, Hello World!'),
+          //   path: 'hello.txt',
+          // })
+
+          // console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
+
+          // try {
+          //   console.info('pinning', filesAdded[0].hash)
+          //   await node.pin.add(filesAdded[0].hash)
+          //   console.info('pinned')
+          // } catch (err) {
+          //   console.error(err)
+          // }
+
+          console.log('searching', node)
+          const fileBuffer = await node.cat(
+            'QmWKZ2mMh1e5CdZ72p7MAz72vxacnPNZRR8zVzxnksHqe8',
+          )
+          console.log('found', fileBuffer)
+          console.log('file contents:', fileBuffer.toString())
+        } catch (err) {
+          console.error(err)
+        }
+      }, 10000)
+    }, 20000)
+  })
 }

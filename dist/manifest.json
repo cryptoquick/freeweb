@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "freeweb",
+  "name": "FreeWeb",
   "description": "extension for chrome-compatible browsers for accessing sites using the .free TLD and FreeWeb",
   "version": "0.1.0",
 
