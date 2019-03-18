@@ -61,7 +61,7 @@ const node = new IPFS({
   },
   config: {
     Addresses: {
-      Swarm: ['/dns/freeweb.foundation/wss/p2p-webrtc-star'],
+      Swarm: ['/dns4/freeweb.foundation/tcp/443/wss/p2p-webrtc-star'],
     },
     Bootstrap: [],
     EXPERIMENTAL: {
