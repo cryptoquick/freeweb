@@ -27,7 +27,7 @@
     "cids": "^0.5.8",
     "err-code": "^1.1.2",
     "filesize": "^4.1.2",
-    "ipfs": "https://github.com/ipfs/js-ipfs.git#804794c0e4260e222a5dd5f38300ba800b075271",
+    "ipfs": "https://github.com/ipfs/js-ipfs.git#e38b81d076728d4019f3e670fa8eaa1f6b580d26",
     "libp2p": "https://github.com/libp2p/js-libp2p.git#68e9af62ea651a6dd257194e6fe22a3437348fee",
     "libp2p-kad-dht": "0.14.9",
     "libp2p-secio": "^0.11.1",
