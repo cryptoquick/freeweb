@@ -28,8 +28,10 @@
     "unlimitedStorage",
     "webRequest",
     "webRequestBlocking",
-    "<all_urls>"
+    "<all_urls>",
+    "https://freeweb.foundation/*",
+    "wss://freeweb.foundation/*"
   ],
 
-  "content_security_policy": "default-src 'self' https://freeweb.foundation 'unsafe-eval'; script-src 'self' https://freeweb.foundation 'unsafe-eval'; connect-src 'self' https://freeweb.foundation; object-src 'self'"
+  "content_security_policy": "default-src 'self' https://freeweb.foundation 'unsafe-eval'; script-src 'self' https://freeweb.foundation 'unsafe-eval'; connect-src 'self' wss://freeweb.foundation; object-src 'self'"
 }

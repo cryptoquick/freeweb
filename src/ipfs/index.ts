@@ -12,7 +12,6 @@ import SECIO from 'libp2p-secio'
 import WebRTCStar from 'libp2p-webrtc-star'
 
 import assert from 'assert'
-import { decodeUTF8 } from 'tweetnacl-ts'
 
 const libp2pBundle = ({ peerBook, peerInfo }: any) => {
   const wstar = new WebRTCStar({
@@ -22,7 +21,6 @@ const libp2pBundle = ({ peerBook, peerInfo }: any) => {
   return new Libp2p({
     config: {
       EXPERIMENTAL: {
-        // dht: true,
         pubsub: true,
       },
       dht: {
@@ -57,15 +55,18 @@ const libp2pBundle = ({ peerBook, peerInfo }: any) => {
 }
 
 const node = new IPFS({
+  EXPERIMENTAL: {
+    dht: true,
+    pubsub: true,
+  },
   config: {
     Addresses: {
-      Swarm: ['/dns/freeweb.foundation/wss/p2p-webrtc-star'],
-      // Swarm: ['/dns4/127.0.0.1/tcp/9090/ws/p2p-webrtc-star'],
+      Swarm: ['/dns4/freeweb.foundation/tcp/443/wss/p2p-webrtc-star'],
     },
     Bootstrap: [],
     EXPERIMENTAL: {
       dht: true,
-      pubsub: false,
+      pubsub: true,
     },
   },
   libp2p: libp2pBundle,
@@ -108,7 +109,7 @@ export const init = () => {
   })
 
   node.on('ready', async () => {
-    const { Buffer } = node.types
+    const { Buffer } = IPFS
     const { version } = await node.version()
 
     console.log('Version:', version)
