@@ -4,11 +4,17 @@
 
 FreeWeb is a protocol for a new kind of web, one shared by people and not by corporations. FreeWeb uses a browser extension to store data for web apps on users' computers, and shares it using Social Peer-to-Peer (sp2p), in order to make running web apps free for app developers, and eliminate the costs of running web infrastructure.
 
-Technically, it uses cryptography, like hashes, signatures, and encryption, as well as browser realtime communication to build a peer-to-peer network of websites.
+Under the hood, it uses cryptography, like hashes, signatures, and encryption, as well as browser realtime communication to build a peer-to-peer network of websites. It does this through IPFS, IPNS, and WebRTC. FreeWeb is different from IPFS in that every user becomes a node, and only shares data specific to them. FreeWeb apps should be designed to handle temporarily offline records.
+
+Even the peer discovery server (called the Signalling Star) can go down and not impact performance of the network significantly (however, new peers, and those just coming online will be affected).
+
+FreeWeb is currently in development, and there are no releases just yet. Watch this space!
+
+If you're eager to develop your app right now, develop using IPFS APIs. FreeWeb should be a drop-in replacement for most things.
 
 ## Chrome Extension
 
-- Chrome extension, to allow the browser to access unlimited storage (localStorage is limited to 5mb, so it is useful for very few things)
+- Chrome extension, to allow the browser to access unlimited storage (localStorage is limited to 5mb, so it is useful for very few things, and IndexedDB is limited to roughly 10% of your drive)
 - Chrome extensions can be used in the following browsers:
   - Chrome / Chromium
   - Firefox Quantum (57)
@@ -20,19 +26,24 @@ Technically, it uses cryptography, like hashes, signatures, and encryption, as w
 ## FreeWeb Near-term Proof of Concept Feature Development Roadmap
 
 - [x] TypeScript and Chrome extension build system
-- [ ] Key generation, kept in browser storage
-  - [ ] Keys for users
-  - [ ] Keys for sites
-- [ ] Named keys
-- [ ] Web scraper
-- [ ] WebRTC Signalling Star Server
-- [ ] WebRTC libp2p Client
-  - [ ] findData - DHT-like network hash search
-  - [ ] publishData - Publish latest hash to subscribers to a signature
+- [x] WebRTC Signalling Star Server
+- [ ] WebRTC IPFS Client
+  - [x] Can connect to peers locally
+  - [ ] Can hole-punch through NAT and discover peers on Signalling Star
+  - [ ] Can pin, and provide data to other peers in DHT using IPFS and WebRTC transport
+  - [ ] Cache peers and test if Signalling Star goes down, cached peers are used to keep network online
+- [ ] Package and release FreeWeb IPFS interface
+- [ ] IPNS Key management
+- [ ] Web scraper & sanitizer
+- [ ] Out of Band STUN & IPFS Handshake strategy
+- [ ] FreeWeb Lite (IndexedDB and Web Worker, can be an integrated, drop-in replacement for IPFS)
+- [ ] PaidWeb Bridges (With clear explanation of all data shared)
+  - [ ] The idea being, PaidWeb Bridges would be run by volunteers
+  - [ ] The bridge that needs the least data from a user is going to be the most attractive
 
 ## FreeWeb App API
 
-Still under development.
+Will match IPFS API (with DHT and pubsub), but more documentation and examples will be provided, as well as TypeScript definitions.
 
 ## History
 

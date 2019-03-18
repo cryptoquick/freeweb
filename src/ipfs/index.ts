@@ -1,7 +1,7 @@
 // @ts-ignore
-import IPFS from 'ipfs'
-// @ts-ignore
 import CID from 'cids'
+// @ts-ignore
+import IPFS from 'ipfs'
 // @ts-ignore
 import Libp2p from 'libp2p'
 // @ts-ignore
@@ -59,8 +59,8 @@ const libp2pBundle = ({ peerBook, peerInfo }: any) => {
 const node = new IPFS({
   config: {
     Addresses: {
-      // Swarm: ['/dns/freeweb.foundation/wss/p2p-webrtc-star'],
-      Swarm: ['/dns4/127.0.0.1/tcp/9090/ws/p2p-webrtc-star'],
+      Swarm: ['/dns/freeweb.foundation/wss/p2p-webrtc-star'],
+      // Swarm: ['/dns4/127.0.0.1/tcp/9090/ws/p2p-webrtc-star'],
     },
     Bootstrap: [],
     EXPERIMENTAL: {
