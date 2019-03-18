@@ -108,7 +108,7 @@ export const init = () => {
   })
 
   node.on('ready', async () => {
-    const { Buffer } = node.types
+    const { Buffer } = IPFS
     const { version } = await node.version()
 
     console.log('Version:', version)
