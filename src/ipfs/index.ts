@@ -64,10 +64,6 @@ const node = new IPFS({
       Swarm: ['/dns4/freeweb.foundation/tcp/443/wss/p2p-webrtc-star'],
     },
     Bootstrap: [],
-    EXPERIMENTAL: {
-      dht: true,
-      pubsub: true,
-    },
   },
   libp2p: libp2pBundle,
   preload: {
