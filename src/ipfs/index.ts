@@ -27,7 +27,7 @@ const libp2pBundle = ({ peerBook, peerInfo }: any) => {
         enabled: true,
         kBucketSize: 20,
         randomWalk: {
-          enabled: false,
+          enabled: true,
           interval: 30000,
           queriesPerPeriod: 1,
           timeout: 10000,
@@ -56,7 +56,6 @@ const libp2pBundle = ({ peerBook, peerInfo }: any) => {
 
 const node = new IPFS({
   EXPERIMENTAL: {
-    dht: true,
     pubsub: true,
   },
   config: {
